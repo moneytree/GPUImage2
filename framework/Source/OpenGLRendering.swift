@@ -17,9 +17,9 @@
 
 import Foundation
 
-struct InputTextureProperties {
-    let textureCoordinates:[GLfloat]
-    let texture:GLuint
+public struct InputTextureProperties {
+    public let textureCoordinates:[GLfloat]
+    public let texture:GLuint
 }
 
 public struct GLSize {
@@ -48,7 +48,7 @@ public let standardImageVertices:[GLfloat] = [-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 
 public let verticallyInvertedImageVertices:[GLfloat] = [-1.0, 1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0]
 
 // "position" and "inputTextureCoordinate", "inputTextureCoordinate2" attribute naming follows the convention of the old GPUImage
-func renderQuadWithShader(_ shader:ShaderProgram, uniformSettings:ShaderUniformSettings? = nil, vertices:[GLfloat], inputTextures:[InputTextureProperties]) {
+public func renderQuadWithShader(_ shader:ShaderProgram, uniformSettings:ShaderUniformSettings? = nil, vertices:[GLfloat], inputTextures:[InputTextureProperties]) {
     sharedImageProcessingContext.makeCurrentContext()
     shader.use()
     uniformSettings?.restoreShaderSettings(shader)
@@ -191,6 +191,16 @@ func attachStencilBuffer(width:GLint, height:GLint) throws -> GLuint {
     }
     
     return stencilBuffer
+}
+
+public func enableAdditiveBlending() {
+    glBlendEquation(GLenum(GL_FUNC_ADD))
+    glBlendFunc(GLenum(GL_ONE), GLenum(GL_ONE))
+    glEnable(GLenum(GL_BLEND))
+}
+
+public func disableBlending() {
+    glDisable(GLenum(GL_BLEND))
 }
 
 extension String {
