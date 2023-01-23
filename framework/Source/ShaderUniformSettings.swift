@@ -1,15 +1,17 @@
-#if os(Linux)
-#if GLES
-    import COpenGLES.gles2
-    #else
-    import COpenGL
+#if canImport(OpenGL)
+import OpenGL.GL3
 #endif
-#else
-#if GLES
-    import OpenGLES
-    #else
-    import OpenGL.GL3
+
+#if canImport(OpenGLES)
+import OpenGLES
 #endif
+
+#if canImport(COpenGLES)
+import COpenGLES.gles2
+#endif
+
+#if canImport(COpenGL)
+import COpenGL
 #endif
 
 public struct ShaderUniformSettings {
@@ -53,7 +55,7 @@ public struct ShaderUniformSettings {
         set(newValue) { uniformValues[index] = newValue }
     }
 
-    func restoreShaderSettings(_ shader:ShaderProgram) {
+    public func restoreShaderSettings(_ shader:ShaderProgram) {
         for (uniform, value) in uniformValues {
             switch value {
                 case let value as Float: shader.setValue(GLfloat(value), forUniform:uniform)
