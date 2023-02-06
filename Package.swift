@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -9,7 +9,8 @@ let platformTargets: [Target] = [
         .target(
             name: "GPUImage",
             path: "framework/Source",
-            exclude: platformExcludes)]
+            exclude: platformExcludes,
+            swiftSettings: [.define("GLES")])]
 let platformProducts: [Product] =  [
         .library(
             name: "GPUImage",
@@ -20,8 +21,8 @@ let platformProducts: [Product] =  [
 // TODO: Move the remote system library packages into this project
 let platformDependencies: [Package.Dependency] = [
     .package(url: "https://github.com/twostraws/SwiftGD.git", .exact("2.3.0")),
-    .package(url: "https://github.com/BradLarson/COpenGL.git", from: "1.0.2"), 
-    .package(url: "https://github.com/BradLarson/CFreeGLUT.git", from: "1.0.1"), 
+    .package(url: "https://github.com/BradLarson/COpenGL.git", from: "1.0.2"),
+    .package(url: "https://github.com/BradLarson/CFreeGLUT.git", from: "1.0.1"),
     .package(url: "https://github.com/BradLarson/CVideo4Linux.git", from: "1.0.2")]
 let platformExcludes =  ["Apple", "Operations/Shaders", "Linux/RPiRenderWindow.swift", "Linux/OpenGLContext-RPi.swift", "Linux/V4LSupplement", "Linux/V4LCamera"]
 let platformTargets: [Target] = [
