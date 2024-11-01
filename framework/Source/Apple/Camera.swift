@@ -289,7 +289,9 @@ public class Camera: NSObject, ImageSource, AVCaptureVideoDataOutputSampleBuffer
         self.totalFrameTimeDuringCapture = 0
         
         if (!captureSession.isRunning) {
-            captureSession.startRunning()
+          DispatchQueue.global(qos: .background).async { [weak self] in
+              self?.captureSession.startRunning()
+          }
         }
     }
     
