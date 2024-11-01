@@ -278,7 +278,12 @@ extension String {
     
     func withGLChar(_ operation:(UnsafePointer<GLchar>) -> ()) {
         if let value = self.cString(using:String.Encoding.utf8) {
-            operation(UnsafePointer<GLchar>(value))
+            value.withUnsafeBytes { pointer in
+                guard let address = pointer.bindMemory(to: GLchar.self).baseAddress else {
+                    fatalError("Unable to bind memory to GLchar")
+                }
+                operation(address)
+            }
         } else {
             fatalError("Could not convert this string to UTF8: \(self)")
         }
